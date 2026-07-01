@@ -7,7 +7,6 @@ on:
   workflow_dispatch:
 
 permissions:
-  id-token: write
   contents: read
 
 env:
@@ -15,8 +14,6 @@ env:
   AZURE_WEBAPP_SLOT_NAME: presupuesto
   PHP_VERSION: '8.2'
   NODE_VERSION: '24'
-  AZURE_CORE_OUTPUT: none
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -58,16 +55,10 @@ jobs:
             -x "storage/framework/sessions/*" \
             -x "storage/framework/views/*"
 
-      - name: Login to Azure
-        uses: azure/login@v3
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_806E3EE040CC4ABCBF5C8E44FF2B2F9B }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_8A194C90A0D24C1CB35A9A1DD7AF1AAC }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9549F19D386D456AAC7749ABA0E5DE29 }}
-
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: ${{ env.AZURE_WEBAPP_SLOT_NAME }}
           package: release.zip
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
