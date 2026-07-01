@@ -63,15 +63,24 @@ php artisan key:generate --show
 
 ## Deploy
 
-El repo incluye un `Dockerfile` preparado para Azure App Service for Containers:
+Este proyecto esta preparado para Azure App Service con **Publish: Code**, no como imagen Docker.
 
-- instala dependencias PHP y Node;
-- instala drivers `sqlsrv` y `pdo_sqlsrv`;
-- ejecuta `composer install`;
-- ejecuta `npm ci` y `npm run build`;
-- publica Apache apuntando a `public/`.
+Crear o configurar el App Service con:
 
-Si se usa App Service PHP nativo en vez de contenedor, verificar que el entorno tenga instaladas las extensiones `sqlsrv` y `pdo_sqlsrv`.
+- Publish: Code
+- Runtime stack: PHP 8.2 o superior
+- Operating System: Linux
+- Deployment Center: GitHub
+- Repository: `lionel-carreras/presupuestos`
+- Branch: `main`
+
+Laravel sirve la aplicacion desde `public/`. En App Service Linux/PHP, configurar el **Startup Command**:
+
+```bash
+cp /home/site/wwwroot/default /etc/nginx/sites-available/default && service nginx reload
+```
+
+Si se usa App Service PHP nativo, verificar que el entorno tenga instaladas las extensiones `sqlsrv` y `pdo_sqlsrv`.
 
 ## Comandos locales
 
