@@ -15,6 +15,7 @@ use App\Models\Clientes;
 use App\Models\Presupuesto;
 use App\Models\PresupuestoDetalle;
 use App\Mail\PresupuestoMail;
+use App\Mail\RetiroSolicitadoMail;
 
 class PresupuestoController extends Controller
 {
@@ -206,8 +207,8 @@ class PresupuestoController extends Controller
     $presupuesto->Total      = $data['tarifa'] ?? 0;
     $presupuesto->Activo     = 'S';
     $presupuesto->EnvioID    = null;
-    $presupuesto->EmpleadoId = '1634';
-    $presupuesto->UsuarioId  = '1634';
+    $presupuesto->EmpleadoId = '11253';
+    $presupuesto->UsuarioId  = '11253';
 
     $presupuesto->SucursalIDOrigen  = $data['sucursal_id_origen']  ?? null;
     $presupuesto->SucursalIDDestino = $data['sucursal_id_destino'] ?? null;
@@ -289,6 +290,11 @@ class PresupuestoController extends Controller
     } else {
         Mail::to($data['clienteMail'] ?? 'info@brio.com.ar')
             ->send($mailable);
+    }
+
+    if (!empty($data['retiroData'])) {
+        Mail::to('retiros@brio.com.ar')
+            ->send(new RetiroSolicitadoMail($data));
     }
 
     // 7) Retornar JSON
