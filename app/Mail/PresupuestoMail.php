@@ -37,7 +37,7 @@ class PresupuestoMail extends Mailable
         $parsedDate = Carbon::createFromFormat('d/m/Y', $rawDate);
         $this->data['fechaDesde'] = $parsedDate
             ->locale('es')
-            ->translatedFormat('l, d \\d\\e F Y');
+            ->translatedFormat('d \\d\\e F Y');
 
         // Asignar otras variables al array, si no están ya definidas
         $this->data['clienteNombre'] = $data['clienteNombre'] ?? 'Estimado cliente';
