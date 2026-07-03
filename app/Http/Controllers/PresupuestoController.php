@@ -199,9 +199,18 @@ class PresupuestoController extends Controller
         if ($request->has('retirar_domicilio') && $request->input('retirar_domicilio')) {
             $descripcion = $request->input('mercaderia_descripcion_hidden') ?? 'Presupuesto Web';
         } else {
-            $descripcion = $request->input('descripcion') ?? 'Presupuesto Web';
+            $descripcion = $request->input('mercaderia_descripcion_hidden')
+                ?? $request->input('descripcion')
+                ?? 'Presupuesto Web';
         }
         $presupuesto->Descripcion = $descripcion;
+        $data['mercaderia_descripcion'] = $descripcion;
+        $data['mercaderia_largo'] = $request->input('mercaderia_largo_hidden') ?? $request->input('largo');
+        $data['mercaderia_alto'] = $request->input('mercaderia_alto_hidden') ?? $request->input('alto');
+        $data['mercaderia_ancho'] = $request->input('mercaderia_ancho_hidden') ?? $request->input('ancho');
+        $data['mercaderia_peso'] = $request->input('mercaderia_peso_hidden') ?? $request->input('kilos');
+        $data['mercaderia_cantidad'] = $request->input('mercaderia_cantidad_hidden') ?? ($data['cantidad'] ?? null);
+        $data['mercaderia_valor_declarado'] = $request->input('mercaderia_valor_declarado_hidden') ?? $request->input('valor');
 
 
     $presupuesto->Total      = $data['tarifa'] ?? 0;

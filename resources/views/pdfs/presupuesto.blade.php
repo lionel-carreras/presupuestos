@@ -71,6 +71,18 @@
 
 <hr>
 
+<div style="border: 1px solid #05a064; padding: 10px; margin-bottom: 12px;">
+    <strong style="color: #05a064;">MERCADERIA DECLARADA POR EL CLIENTE:</strong><br>
+    {{ $mercaderia_descripcion ?? 'Sin descripcion declarada' }}
+
+    <br><br>
+    <strong>Detalle presupuestado:</strong>
+    Cantidad: {{ $mercaderia_cantidad ?? '-' }};
+    Peso total: {{ $mercaderia_peso ?? '-' }} kg;
+    Medidas: {{ $mercaderia_largo ?? '-' }} x {{ $mercaderia_alto ?? '-' }} x {{ $mercaderia_ancho ?? '-' }} cm;
+    Valor declarado: ${{ number_format((float) ($mercaderia_valor_declarado ?? 0), 2) }}.
+</div>
+
 <p>
     <strong style="color: #05a064;">IMPORTANTE:</strong> SI LA MERCADERÍA TRASLADADA DIFIERE EN ALGÚN MODO DE LA
     PRESUPUESTADA, EL COSTO DEL ENVÍO SE VERÁ AFECTADO Y ESTE PRESUPUESTO

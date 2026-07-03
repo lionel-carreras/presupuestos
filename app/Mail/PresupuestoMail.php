@@ -46,7 +46,9 @@ class PresupuestoMail extends Mailable
         $this->data['flete']         = $data['flete']         ?? 0;
         $this->data['iva']           = $data['iva']           ?? 0;
         $this->data['total']         = $data['total']         ?? 0;
-        $this->data['mercaderia_descripcion'] = $data['mercaderia_descripcion'] ?? 'Sin descripción';
+        $this->data['mercaderia_descripcion'] = $data['mercaderia_descripcion']
+            ?? $data['mercaderia_descripcion_hidden']
+            ?? ($data['retiroData']['mercaderia_descripcion'] ?? 'Sin descripcion');
 
         // Asignar embalaje_cajon a una propiedad independiente
         $this->embalaje_cajon = $data['embalaje_cajon'] ?? null;
@@ -72,7 +74,13 @@ class PresupuestoMail extends Mailable
             'iva'                    => $this->data['iva'] ?? null,
             'total'                  => $this->data['total'] ?? null,
             'logoBase64'             => $logoBase64,
-            'mercaderia_descripcion' => $this->data['descripcion'] ?? 'Presupuesto Web',
+            'mercaderia_descripcion' => $this->data['mercaderia_descripcion'] ?? 'Sin descripcion',
+            'mercaderia_largo'       => $this->data['mercaderia_largo'] ?? null,
+            'mercaderia_alto'        => $this->data['mercaderia_alto'] ?? null,
+            'mercaderia_ancho'       => $this->data['mercaderia_ancho'] ?? null,
+            'mercaderia_peso'        => $this->data['mercaderia_peso'] ?? null,
+            'mercaderia_cantidad'    => $this->data['mercaderia_cantidad'] ?? null,
+            'mercaderia_valor_declarado' => $this->data['mercaderia_valor_declarado'] ?? null,
         ])
         ->setOption('defaultFont', 'DejaVu Sans')
         ->setOption('isRemoteEnabled', true);
