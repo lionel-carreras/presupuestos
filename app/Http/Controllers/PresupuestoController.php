@@ -22,39 +22,6 @@ class PresupuestoController extends Controller
     /**
      * Primer endpoint: calcula y retorna JSON, sin enviar el correo.
      */
-    // Aquí tu lista de Sucursales => correos, usando arrays
-    protected $sucursalEmails = [
-        8  => ['lionelcarreras.it@gmail.com'],//['parana@brio.com.ar'],
-        41 => ['lionelcarreras.it@gmail.com'],//['gualeguaychu@brio.com.ar'],
-        2  => ['lionelcarreras.it@gmail.com'],//['cordoba@brio.com.ar'],
-        11 => ['lionelcarreras.it@gmail.com'],//['villamaria@brio.com.ar'],
-        16 => ['lionelcarreras.it@gmail.com'],//['sanfrancisco@brio.com.ar'],
-
-
-        12 => ['lionelcarreras.it@gmail.com'],//['mendoza@brio.com.ar'],
-
-        30 => ['lionelcarreras.it@gmail.com'],//['sanrafael@brio.com.ar'],
-        18 => ['lionelcarreras.it@gmail.com'],//['sanjuan@brio.com.ar'],
-
-
-        34 => ['lionelcarreras.it@gmail.com'],//['tucuman@brio.com.ar','tucuman@brio.com.ar'],
-
-
-        1  => ['lionelcarreras.it@gmail.com'],//['retiros@brio.com.ar'],
-        10  => ['lionelcarreras.it@gmail.com'],
-
-
-        24 => ['lionelcarreras.it@gmail.com'],//['mardelplata@brio.com.ar'],
-
-        4  => ['lionelcarreras.it@gmail.com'],//['santafe@brio.com.ar'],
-        7  => ['lionelcarreras.it@gmail.com'],//['rafaela@brio.com.ar'],
-        37 => ['lionelcarreras.it@gmail.com'],//['sanlorenzo@brio.com.ar'],
-        23 => ['lionelcarreras.it@gmail.com'],//['junin@brio.com.ar'],
-        22 => ['lionelcarreras.it@gmail.com'],//['pergamino@brio.com.ar'],
-        3  => ['lionelcarreras.it@gmail.com'],//['pompeya@brio.com.ar'],
-    ];
-
-
     public function calcularPresupuesto(Request $request)
     {
         // 1. Datos del cliente
@@ -282,31 +249,16 @@ class PresupuestoController extends Controller
     // 4) Construir el mailable
     $mailable = new PresupuestoMail($data);
 
-    // 5) Asignar correos CC si corresponde
-    $ccEmails = null;
-    if ($request->has('retirar_domicilio') && $request->input('retirar_domicilio')) {
-        $sucId = $data['sucursal_id_origen'] ?? null;
-        if ($sucId && isset($this->sucursalEmails[$sucId])) {
-            $ccEmails = $this->sucursalEmails[$sucId];
-        }
-    }
-
-    // 6) Enviar el correo, con CC si corresponde
-    if ($ccEmails) {
-        Mail::to($data['clienteMail'] ?? 'info@brio.com.ar')
-            ->cc($ccEmails)
-            ->send($mailable);
-    } else {
-        Mail::to($data['clienteMail'] ?? 'info@brio.com.ar')
-            ->send($mailable);
-    }
+    // 5) Enviar el presupuesto solamente al cliente.
+    Mail::to($data['clienteMail'] ?? 'info@brio.com.ar')
+        ->send($mailable);
 
     if (!empty($data['retiroData'])) {
         Mail::to('retiros@brio.com.ar')
             ->send(new RetiroSolicitadoMail($data));
     }
 
-    // 7) Retornar JSON
+    // 6) Retornar JSON
     return response()->json([
         'ok'      => true,
         'mensaje' => 'Correo enviado e inserción realizada en la base (con detalle).'
