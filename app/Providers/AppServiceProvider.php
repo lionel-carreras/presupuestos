@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,11 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
 
 
-public function boot()
-{
-   if (config('app.env') === 'production') {
-        URL::forceScheme('https');
+    public function boot(): void
+    {
+        // El esquema se obtiene de la solicitud y de los encabezados del
+        // proxy confiable. Forzar HTTPS rompe el acceso HTTP privado :8001.
     }
-}
-
 }
