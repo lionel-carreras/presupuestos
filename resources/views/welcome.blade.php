@@ -218,6 +218,12 @@
   <!-------  modal retiros ---->
   @include('modalRetiro.modal')
 
+  <footer class="text-center text-muted mt-5">
+    <div class="p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2026 <a class="text-reset fw-bold" href="https://kiersys.com/" target="_blank" rel="noopener noreferrer">Kiersys Technologies</a>. Todos los derechos reservados.
+    </div>
+  </footer>
+
 
 
 
