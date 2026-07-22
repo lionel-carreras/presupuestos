@@ -247,7 +247,7 @@
             </div>
             </div>
 
-
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="button" id="guardarModal" class="btn btn-primary">Guardar</button>
