@@ -29,7 +29,7 @@
     }
   </style>
 </head>
-<body>
+<body style="padding-bottom: 2.5rem;">
     @include('clientenuevo.modal')
     
   <div class="container mt-5">
@@ -231,8 +231,8 @@
 
   @include('funciones')
 
-  <footer class="text-center bg-dark text-white mt-5">
-    <div class="p-4">
+  <footer class="text-center bg-dark text-white" style="position: fixed; right: 0; bottom: 0; left: 0; z-index: 1030; font-size: 0.75rem; line-height: 1.2;">
+    <div class="px-2 py-2">
       © 2026 <a class="text-white fw-bold" href="https://kiersys.com/" target="_blank" rel="noopener noreferrer">Kiersys Technologies</a>. Todos los derechos reservados.
     </div>
   </footer>
